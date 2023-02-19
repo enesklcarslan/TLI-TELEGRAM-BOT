@@ -21,7 +21,9 @@ class TLI(Client):
         )
 
     async def start(self):
+        print("TLI Bot Running..")
         await super().start()
 
     async def stop(self, *args):
+        print("TLI Bot Stopped..")
         await super().stop()

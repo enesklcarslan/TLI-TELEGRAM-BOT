@@ -1,4 +1,9 @@
 from tlibot.bot_config import TLI
 
-if __name__ == "__main__":
+
+def main():
     TLI().run()
+
+
+if __name__ == "__main__":
+    main()
