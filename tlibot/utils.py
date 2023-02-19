@@ -11,3 +11,13 @@ def button_maker(buttons: dict, size: int) -> InlineKeyboardMarkup:
     ]
     buttons = slicer(buttons, size)
     return InlineKeyboardMarkup(buttons)
+
+
+# begin CONSTANTS
+
+CONTACT_PEOPLE = {
+    "Discord": "https://discord.gg/aqaC9B2t",
+    "Telegram": "@biooody",
+}
+
+# end CONSTANTS

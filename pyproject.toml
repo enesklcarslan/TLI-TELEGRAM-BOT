@@ -10,6 +10,8 @@ packages = [{include = "tli_telegram_bot"}]
 python = "^3.10"
 pyrogram = "^2.0.99"
 tgcrypto = "^1.2.5"
+requests = "^2.28.2"
+python-dotenv = "^0.21.1"
 
 
 [tool.poetry.group.dev.dependencies]
