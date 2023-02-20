@@ -3,18 +3,19 @@ from functools import partial
 
 from pyrogram import Client, filters
 
+from settings import API_HASH, API_ID, BOT_TOKEN
+
 command = partial(filters.command, prefixes=["!", "/", "."])
 
 
 class TLI(Client):
     def __init__(self):
         self.name = self.__class__.__name__.lower()
-        config = self.load_config()
         super().__init__(
             name=self.name,
-            api_id=config["api_id"],
-            api_hash=config["api_hash"],
-            bot_token=config["bot_token"],
+            api_id=API_ID,
+            api_hash=API_HASH,
+            bot_token=BOT_TOKEN,
             workers=8,
             plugins=dict(root="tlibot/plugins"),
         )
@@ -24,8 +25,3 @@ class TLI(Client):
 
     async def stop(self, *args):
         await super().stop()
-
-    def load_config(self):
-        config = ConfigParser()
-        config.read(f"{self.name}.ini")
-        return config["tli"]

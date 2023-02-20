@@ -56,14 +56,16 @@ class UserList:
         for user in self.users:
             if user.id == id:
                 self.users.remove(user)
+                user_resource_map.pop(user.id, None)
                 return True
         return False
 
     def remove_inactive_users(self):
+        now = datetime.now()
         for user in self.users:
-            if (datetime.now() - user.updated_at).days > 2:
+            if (now - user.updated_at).days > 1:
                 self.users.remove(user)
-                user_resource_map.pop(user.id)
+                user_resource_map.pop(user.id, None)
 
     def __repr__(self):
         return f"{self.users}"
@@ -79,7 +81,7 @@ class Resource:
         self.course = None
         self.description = None
         self.title = None
-        self.tags = []
+        self.tags = None
         self.resource_file = None
 
     def set_uploader(self, uploader):
@@ -87,9 +89,6 @@ class Resource:
 
     def set_author(self, author):
         self.author = author
-
-    def set_uploader(self, uploader):
-        self.uploader = uploader
 
     def set_course(self, course):
         self.course = course
@@ -100,9 +99,8 @@ class Resource:
     def set_title(self, title):
         self.title = title
 
-    def set_tags(self, tags):
-        for tag in tags:
-            self.tags.append(tag)
+    def set_tags(self, tags: str):
+        self.tags = [tag.strip() for tag in tags.split(",")]
 
     def set_file(self, resource_file):
         self.file = resource_file

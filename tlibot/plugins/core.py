@@ -26,7 +26,6 @@ async def say_hello(_: Client, message: Message) -> None:
     created, user = users_list.get_or_create(
         from_user.id, from_user.username, from_user.first_name
     )
-    user.set_step(0)
 
     msg = await message.reply_text(
         text=f"`Merhaba {message.from_user.mention().capitalize()}. Turkey Learning Initiative Telegram botuna hoşgeldin.`",
@@ -57,7 +56,7 @@ async def get_lecture_title(client: Client, callback_query: CallbackQuery):
         resource.set_uploader(f"@{user.username} (Telegram-Bot)")
     else:
         await callback_query.answer(
-            f"İşlem iptal edildi. Başka bir işlem için /start komutunu kullanabilirsin.",
+            "İşlem iptal edildi. Başka bir işlem için /start komutunu kullanabilirsin.",
             show_alert=True,
         )
         return
@@ -72,7 +71,7 @@ async def get_lecture_description(_: Client, message: Message):
     if user:
         user.set_step(2)
         user_resource_map[user.id].set_title(message.text)
-    await message.reply_text(f"Lütfen ders/kaynak açıklamasını giriniz:", quote=True)
+    await message.reply_text("Lütfen ders/kaynak açıklamasını giriniz:", quote=True)
 
 
 @TLI.on_message(step_factory(2))
@@ -93,7 +92,7 @@ async def get_lecture_tags(_: Client, message: Message):
         user.set_step(4)
         user_resource_map[user.id].set_author(message.text)
     await message.reply_text(
-        f"Lütfen bu kaynakla ilgili en az 2 anahtar kelimeyi aralarında virgül olacak şekilde giriniz (Örn: matematik,diferansiyel):",
+        "Lütfen bu kaynakla ilgili en az 2 anahtar kelimeyi aralarında virgül olacak şekilde giriniz (Örn: matematik,diferansiyel):",
         quote=True,
     )
 
@@ -103,7 +102,7 @@ async def get_lecture_course(_: Client, message: Message):
     user = users_list.get_user(message.from_user.id)
     if user:
         user.set_step(5)
-        user_resource_map[user.id].set_tags(message.text.split(","))
+        user_resource_map[user.id].set_tags(message.text)
 
     msg = await message.reply_text(
         text=f"`Lütfen aşağıdaki butonlardan bu kaynağın hangi ders için olduğunu seçiniz.`",
@@ -124,7 +123,7 @@ async def send_file_upload_message(client: Client, callback_query: CallbackQuery
     user = users_list.get_user(callback_query.from_user.id)
     if not user:
         await callback_query.answer(
-            f"İşlem iptal edildi. Başka bir işlem için /start komutunu kullanabilirsin.",
+            "İşlem iptal edildi. Başka bir işlem için /start komutunu kullanabilirsin.",
             show_alert=True,
         )
         return
@@ -133,8 +132,8 @@ async def send_file_upload_message(client: Client, callback_query: CallbackQuery
     resource = user_resource_map[user.id]
     resource.set_course(callback_query.data)
     message = (
-        "Kaynak bilgileri aşağıdaki gibi oluşturulacak\n"
-        "lütfen bilgiler yanlışsa /iptal komutunu kullanarak işlemi iptal ediniz.\n"
+        "Kaynak bilgileri aşağıdaki gibi oluşturulacak. "
+        "Lütfen bilgiler yanlışsa /iptal komutunu kullanarak işlemi iptal ediniz. "
         "Bilgileri onaylıyorsanız kaynağı PDF olarak yükleyip gönderebilirsiniz:\n"
         f"Yazar: {resource.author}\n"
         f"Ders: {TLIBotApiClient.get_courses()[resource.course]}\n"
@@ -150,14 +149,14 @@ async def handle_file_upload(client: Client, message: Message):
     user = users_list.get_user(message.from_user.id)
     if not user:
         await message.reply_text(
-            f"İşlem iptal edildi. Başka bir işlem için /start komutunu kullanabilirsin.",
+            "İşlem iptal edildi. Başka bir işlem için /start komutunu kullanabilirsin.",
             quote=True,
         )
         return
     document = message.document
     if document is None or document.mime_type != "application/pdf":
         await message.reply_text(
-            f"Kaynak yüklemek için lütfen bir PDF dosyası gönderiniz.", quote=True
+            "Kaynak yüklemek için lütfen bir PDF dosyası gönderiniz.", quote=True
         )
         return
     user.set_step(7)
@@ -167,13 +166,13 @@ async def handle_file_upload(client: Client, message: Message):
     successful_upload = resource.upload_to_tli()
     if successful_upload:
         msg = await message.reply_text(
-            f"Kaynağınız Turkish Learning Initiative web sitesine gönderildi.\n"
+            "Kaynağınız Turkish Learning Initiative web sitesine gönderildi. "
             "Onaylandığında yayınlanacaktır.",
             quote=True,
         )
     else:
         msg = await message.reply_text(
-            f"Kaynağınız Turkish Learning Initiative web sitesine gönderilemedi.\n"
+            "Kaynağınız Turkish Learning Initiative web sitesine gönderilemedi. "
             "Lütfen daha sonra tekrar deneyiniz.",
             quote=True,
         )
