@@ -1,4 +1,3 @@
-from configparser import ConfigParser
 from functools import partial
 
 from pyrogram import Client, filters
@@ -27,3 +26,6 @@ class TLI(Client):
     async def stop(self, *args):
         print("TLI Bot Stopped..")
         await super().stop()
+
+
+tli_bot = TLI()
