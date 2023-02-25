@@ -2,7 +2,7 @@
 name = "tli-telegram-bot"
 version = "0.1.0"
 description = "Turkey Learning Initiative Telegram Bot"
-authors = ["Enes Kılıçarslan <enesklcarslan@gmail.com>"]
+authors = ["Enes Kılıçarslan <enesklcarslan@gmail.com>", "Ahmet Burak <ahmetbozyurtt@gmail.com>"]
 readme = "README.md"
 packages = [{include = "tlibot"}]
 
@@ -12,6 +12,8 @@ pyrogram = "^2.0.99"
 tgcrypto = "^1.2.5"
 requests = "^2.28.2"
 python-dotenv = "^0.21.1"
+fastapi = "^0.92.0"
+uvicorn = {extras = ["standard"], version = "^0.20.0"}
 
 
 [tool.poetry.group.dev.dependencies]
@@ -37,3 +39,4 @@ include_trailing_comma = true
 
 [tool.poetry.scripts]
 bot = "tlibot.__main__:main"
+api = "api.main:main"
