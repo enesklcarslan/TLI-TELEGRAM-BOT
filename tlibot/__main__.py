@@ -1,8 +1,8 @@
-from tlibot.bot_config import TLI
+from tlibot.bot_config import tli_bot
 
 
 def main():
-    TLI().run()
+    tli_bot.run()
 
 
 if __name__ == "__main__":
